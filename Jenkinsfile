@@ -3,7 +3,7 @@
 def label = "afindevjenkins-slave-${UUID.randomUUID().toString()}"
 
 def pom
-env.appNameVar
+//env.appNameVar
 //env.appVerVar
  {
     node(label) {
@@ -22,11 +22,11 @@ env.appNameVar
                 mvn clean install
 
                 '''
-                appNameVar = readFile('appNameVar').trim()
+                //appNameVar = readFile('appNameVar').trim()
                 //appVerVar = readFile('appVerVar').trim()
 
-                echo "${appNameVar}"
-                echo "${appVerVar}"
+                //echo "${appNameVar}"
+                //echo "${appVerVar}"
 
         } // end of Compile and Package
 
