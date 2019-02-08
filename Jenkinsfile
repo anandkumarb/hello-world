@@ -4,7 +4,7 @@ def label = "afindevjenkins-slave-${UUID.randomUUID().toString()}"
 
 def pom
 env.appNameVar
-env.appVerVar
+//env.appVerVar
  {
     node(label) {
       container('afin-dev') {
@@ -12,18 +12,18 @@ env.appVerVar
             // container('afin-dev') {
                 checkout scm
                 pom = readMavenPom file: 'pom.xml'
-                env.appVerVar = pom.version
-                echo "${appVerVar}"
+                //env.appVerVar = pom.version
+                //echo "${appVerVar}"
                 sh ''' echo "Running the build."
-                export APP_VERSION="\$appVerVar"
-                export APP_NAME=${JOB_NAME%/*}
-                echo ${APP_NAME} > appNameVar
-                echo ${APP_VERSION} > appVerVar
+                //export APP_VERSION="\$appVerVar"
+                //export APP_NAME=${JOB_NAME%/*}
+                //echo ${APP_NAME} > appNameVar
+                //echo ${APP_VERSION} > appVerVar
                 mvn clean install
 
                 '''
                 appNameVar = readFile('appNameVar').trim()
-                appVerVar = readFile('appVerVar').trim()
+                //appVerVar = readFile('appVerVar').trim()
 
                 echo "${appNameVar}"
                 echo "${appVerVar}"
