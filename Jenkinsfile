@@ -5,32 +5,7 @@ def label = "afindevjenkins-slave-${UUID.randomUUID().toString()}"
 def pom
 env.appNameVar
 env.appVerVar
-
-podTemplate(label: label, yaml: """
-apiVersion: v1
-kind: Pod
-spec:
-  securityContext:
-    runAsUser: 1000
-    serviceAccount: jenkinsbuilduser
-  containers:
-  - name: afin-dev
-    image: 898980891534.dkr.ecr.eu-west-1.amazonaws.com/xlabs-ecr-dev:jdkmvn354-latest
-    command: ['cat']
-    tty: true
-    securityContext:
-      runAsUser: 0
-      privileged: true
-      allowPrivilegeEscalation: true
-    volumeMounts:
-      - mountPath: /var/run/docker.sock
-        name: docker-socket
-  volumes:
-    - name: docker-socket
-      hostPath: 
-        path: /var/run/docker.sock  
-"""
-  ) {
+ {
     node(label) {
       container('afin-dev') {
         stage('Compile & Build'){
