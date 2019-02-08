@@ -9,7 +9,7 @@ node {
       mvnHome = tool 'M3'
    }
    stage('Build') {
-   sh "export JAVA_HOME = /usr/lib/jvm/java-1.8.0-openjdk"
+   sh "export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk"
       // Run the maven build
       if (isUnix()) {
          sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
