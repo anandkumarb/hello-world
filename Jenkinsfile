@@ -15,7 +15,7 @@ spec:
     serviceAccount: jenkinsbuilduser
   containers:
   - name: afin-dev
-    image: 368696334230.dkr.ecr.ap-south-1.amazonaws.com/afin-dev:jdkmvn354-latest
+    image: 898980891534.dkr.ecr.eu-west-1.amazonaws.com/xlabs-ecr-dev:jdkmvn354-latest
     command: ['cat']
     tty: true
     securityContext:
@@ -64,7 +64,7 @@ spec:
               echo "Docker Build for ${appNameVar} - ${appVerVar}"
               sh 'pwd'
                  docker.build("${appNameVar}:${appVerVar}",".")
-                 docker.withRegistry('https://368696334230.dkr.ecr.ap-south-1.amazonaws.com','ecr:ap-south-1:awsECRDev')
+                 docker.withRegistry('https://898980891534.dkr.ecr.eu-west-1.amazonaws.com','ecr:eu-west-1:awsECRDev')
                      {
                         docker.image("${appNameVar}:${appVerVar}").push("${appVerVar}")
                         //docker.image("${appNameVar}:${appVerVar}").push("latest")
@@ -75,14 +75,14 @@ spec:
              withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'awsECRDev',accessKeyVariable: 'ACCESSKEY', secretKeyVariable: 'SECRETKEY']]) {
               sh 'aws configure set aws_access_key_id $ACCESSKEY'
               sh 'aws configure set aws_secret_access_key_id $SECRETKEY'
-              sh 'aws configure set region ap-south-1 '
-              sh 'aws configure set default_region ap-south-1'
+              sh 'aws configure set region eu-west-1 '
+              sh 'aws configure set default_region eu-west-1'
               sh ''' 
                export AWS_ACCESS_KEY_ID=$ACCESSKEY 
                export AWS_SECRET_ACCESS_KEY=$SECRETKEY 
-               export AWS_DEFAULT_REGION=ap-south-1 
-               export AWS_REGION=ap-south-1             
-               export S3_HELM_BUCKET=afin-helm-repo
+               export AWS_DEFAULT_REGION=eu-west-1 
+               export AWS_REGION=eu-west-1             
+               export S3_HELM_BUCKET=xlabs-helm-repo
               
                APP_VERSION="\$appVerVar"
                export APP_VERSION
@@ -93,7 +93,7 @@ spec:
                export HELM_REPO_NAME=s3-charts
 
                aws sts get-caller-identity
-               helm repo add s3-charts s3://afin-helm-repo/charts
+               helm repo add s3-charts s3://xlabs-helm-repo/charts
                helm repo update s3-charts
                helm search s3-charts/${APP_NAME}
                helm package --version=${APP_VERSION} --app-version=${APP_VERSION} ${CHART_DIR}
